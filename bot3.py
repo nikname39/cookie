@@ -3,7 +3,6 @@ from selenium import webdriver
 from oauth2client.service_account import ServiceAccountCredentials
 
 client = discord.Client()
-token = "ODY0NDE1NzkzODIyNDMzMzEz.YO1H8Q.YXuNCeOgaLpr_t4uFPUhmWmsKEo"
 
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
@@ -102,7 +101,6 @@ async def refresh():
     browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
     browser.get(Url)
 
-
     driver.get(page_url)
     for i in range(len(emaillist)):
         driver.find_element_by_id('email-box').click()
@@ -119,6 +117,5 @@ async def refresh():
             except:
                 print("에러없음")
     driver.quit()
-
 
 client.run(token)
