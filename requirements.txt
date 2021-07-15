@@ -3,3 +3,4 @@ asyncio
 gspread
 oauth2client
 selenium
+os

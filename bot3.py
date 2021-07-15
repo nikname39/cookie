@@ -118,4 +118,4 @@ async def refresh():
                 print("에러없음")
     driver.quit()
 
-client.run(token)
+client.run(os.environ['token'])
