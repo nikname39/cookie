@@ -98,10 +98,9 @@ async def refresh():
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
-    browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-    browser.get(Url)
-
-    driver.get(page_url)
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+    driver.get(Url)
+    
     for i in range(len(emaillist)):
         driver.find_element_by_id('email-box').click()
         driver.find_element_by_id('email-box').clear()
