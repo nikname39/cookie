@@ -3,12 +3,12 @@ from selenium import webdriver
 from oauth2client.service_account import ServiceAccountCredentials
 
 client = discord.Client()
-
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
 credentials = ServiceAccountCredentials.from_json_keyfile_name('cookierunkingdom-319800-a62259183b71.json', scope)
 gc = gspread.authorize(credentials)
-
+gc1 = gc.open("Cookiedata").worksheet('Couponlist')
+gc2 = gc.open("Cookiedata").worksheet('Memberlist')
 @client.event
 async def on_ready():
     await bt(['"!도움말"을 이용해보세요!', '구리 제작'])
@@ -32,8 +32,6 @@ async def on_message(message):
     if message.content.startswith("!쿠폰"):
         word = message.content.split(" ")
         word_ = message.content.replace("!쿠폰 ", "")
-
-        gc1 = gc.open("Cookiedata").worksheet('Couponlist')
         C_data = gc1.col_values(1)
 
         for i in range(0, len(C_data)):
@@ -52,15 +50,12 @@ async def on_message(message):
     if message.content.startswith("!가입"):
         word = message.content.split(" ")
         word_ = message.content.replace("!가입 ", "")
-
-        gc2 = gc.open("Cookiedata").worksheet('Memberlist')
         M_data = gc2.col_values(1)
 
         for i in range(0, len(M_data)):
             if M_data[i] == word[1]:
                 await message.channel.send("❌이미 추가된 계정입니다.")
                 break
-
             elif i == (len(M_data)-1):
                 gc2.append_row([word[1], str(message.author)])
                 await message.channel.send(":white_check_mark:계정이 추가 되었습니다.")
@@ -70,7 +65,6 @@ async def on_message(message):
     if message.content == "!새로고침":
         await message.channel.send(":white_check_mark:새로고침 완료.")
         await refresh()
-
 
 async def bt(games):
     await client.wait_until_ready()
@@ -82,17 +76,11 @@ async def bt(games):
                 await client.change_presence(status=discord.Status.online, activity=discord.Game(g))
                 await asyncio.sleep(5)
 
-
 async def refresh():
-
-    gc2 = gc.open("Cookiedata").worksheet('Memberlist')
     emaillist = gc2.col_values(1)
-
-    gc1 = gc.open("Cookiedata").worksheet('Couponlist')
     codelist = gc1.col_values(1)
 
     Url = 'https://game.devplay.com/coupon/ck/ko'
-
     chrome_options = webdriver.ChromeOptions()
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     chrome_options.add_argument("--headless")
