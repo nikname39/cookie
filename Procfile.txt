@@ -1,1 +1,1 @@
-woker: python bot3(heroku).py
+woker: python bot3.py
